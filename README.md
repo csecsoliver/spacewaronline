@@ -1,0 +1,4 @@
+- 2 vagy több stílusú űrhajó
+- négyzet alapú hitbox
+- wasd és nyilak irányítás
+- esetleg multiplayer
