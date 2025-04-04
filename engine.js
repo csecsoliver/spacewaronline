@@ -78,6 +78,14 @@ export class Sprite {
         ctx.moveTo(this.x, this.y - 10);
         ctx.lineTo(this.x, this.y + 10);
         ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(this.x-this.width/2, this.y-this.height/2);
+        ctx.lineTo(this.x+this.width/2, this.y-this.height/2);
+        ctx.lineTo(this.x+this.width/2, this.y+this.height/2);
+        ctx.lineTo(this.x-this.width/2, this.y+this.height/2);
+        ctx.lineTo(this.x-this.width/2, this.y-this.height/2);
+        ctx.stroke();
+
     }
     tick(){
         if (this.visibility) {
