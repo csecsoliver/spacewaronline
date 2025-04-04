@@ -1,11 +1,10 @@
-import {ctx, spaceships} from './data.js';
-export class Spaceship {
-    constructor(x, y, controls, facing = 0, player) {
-        this.x = x;
-        this.y = y;
+import * as engine from './engine.js';
+export class Spaceship extends engine.Sprite {
+    constructor(x, y, controls, facing = 0, player = 0) {
+        super(x,y,engine.spriteImages[`ship${player}`], facing);
 
-        this.controls = controls;
-        this.image = spaceships[player]
+
+
 
         this.thrust = controls[0];
         this.rotateLeft = controls[1];
@@ -13,37 +12,72 @@ export class Spaceship {
         this.fire = controls[3];
         this.warp = controls[4];
 
-        this.facing = facing;
-
-        this.movementvector = new Victor(0,0)
         this.visibility = true;
-
-    }
-    goTo(x, y, facing) {
-        this.x = x;
-        this.y = y;
-        this.velocity =0;
-
+        this.rotateRightCooldown = 0;
+        this.rotateLeftCooldown = 0;
     }
 
     explode() {
 
-        this.visibility = false;
+        this.hide();
 
-    }
-    draw() {
-        if (this.visibility) {
-            // Draw the spaceship at (this.x, this.y) with rotation this.angle
-            // Use canvas 2D context to draw the spaceship
-
-
-        }
     }
     tick(){
-        this.x += this.movementvector.x;
-        this.y += this.movementvector.y;
-        window.ke
+
+        for (const key of engine.pressedKeys) {
+
+            switch (key) {
+                case this.thrust:
+                    const thrustVector = new Victor(Math.cos((this.facing*22.5)*(Math.PI/180)),Math.sin((this.facing*22.5)*(Math.PI/180)));
+                    thrustVector.multiplyScalar(0.05);
+                    thrustVector.rotateDeg(-90);
+                    this.movementvector.add(thrustVector);
+
+                    break;
+                case this.rotateLeft:
+                    if (this.rotateLeftCooldown === 0){
+                        this.rotateLeftCooldown = 10;
+                        if (this.facing ===  0){
+                            this.facing = 15;
+                            break;
+                        }
+                        this.facing -=1;
+                        break;
+                    }
+
+                    this.rotateLeftCooldown -=1;
+
+                    break;
+                case this.rotateRight:
+                    if (this.rotateRightCooldown === 0){
+                        this.rotateRightCooldown = 10;
+                        if (this.facing ===  15){
+                            this.facing = 0;
+                        } else {
+                            this.facing +=1;
+                        }
+                    } else{
+                        this.rotateRightCooldown -=1;
+                    }
+                    break;
+                case this.fire:
+                    console.log("fire");
+                    break;
+                case this.warp:
+                    this.x = Math.random()*800;
+                    this.y =Math.random()*600;
+                    break;
+            }
+            if (this.movementvector.length >=1.0){
+                this.movementvector.multiplyScalar(0.5)
+            }
+        }
+        while (this.movementvector.length() >=engine.speed_of_shit*0.5){
+            this.movementvector.multiplyScalar(0.99999);
+        }
+
+
+        console.log(this.movementvector.length());
+        super.tick();
     }
-
-
 }
