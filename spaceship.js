@@ -1,4 +1,5 @@
 import * as engine from './engine.js';
+
 export class Spaceship extends engine.Sprite {
     constructor(x, y, controls, facing = 0, player = 0) {
         super(x,y,engine.spriteImages[`ship${player}`], facing);
@@ -15,6 +16,7 @@ export class Spaceship extends engine.Sprite {
         this.visibility = true;
         this.rotateRightCooldown = 0;
         this.rotateLeftCooldown = 0;
+        this.warpCooldown =0;
     }
 
     explode() {
@@ -64,8 +66,11 @@ export class Spaceship extends engine.Sprite {
                     console.log("fire");
                     break;
                 case this.warp:
-                    this.x = Math.random()*800;
-                    this.y =Math.random()*600;
+                    if (this.warpCooldown <= 0){
+                        this.goTo(Math.random()*800,Math.random()*600, this.facing);
+                        this.warpCooldown = 360;
+                    }
+
                     break;
             }
             if (this.movementvector.length >=1.0){
@@ -76,7 +81,7 @@ export class Spaceship extends engine.Sprite {
             this.movementvector.multiplyScalar(0.99999);
         }
 
-
+        this.warpCooldown -=1;
         console.log(this.movementvector.length());
         super.tick();
     }

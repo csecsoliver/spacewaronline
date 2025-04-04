@@ -28,21 +28,31 @@ export function gametick() {
 
 }
 export class Sprite {
-    constructor(x, y, image, facing = 0) {
+    constructor(x, y, image, facing = 0, scale = 2) {
         this.x = x;
         this.y = y;
         this.image = image; // path/to/image(000.png)
-        this.facing = facing; // the image number 1 through 15
+        this.facing = facing; // the image number 0 through 15
         this.movementvector = new Victor(0,0)
         this.visibility = true;
-        // noinspection JSPrimitiveTypeWrapperUsage
+
         this.images = [];
 
+        this.width = 0;
+        this.height = 0;
+        this.scale = scale;
         for (let i = 0; i < 16; i++) {
             const element = new Image();
             element.src = this.image + String(i).padStart(3, "0") + ".png";
+            if (element.width > this.width){
+                this.width = element.width;
+            }
+            if (element.height > this.height){
+                this.height = element.height;
+            }
             this.images.push(element);
         }
+
 
     }
 
@@ -50,6 +60,7 @@ export class Sprite {
         this.x = x;
         this.y = y;
         this.facing = facing;
+        this.movementvector = new Victor(0,0);
     }
     hide() {
         this.visibility = false;
@@ -59,7 +70,14 @@ export class Sprite {
     }
     draw() {
 
-        ctx.drawImage(this.images[this.facing], this.x, this.y);
+        ctx.drawImage(this.images[this.facing], this.x-this.width/2, this.y-this.height/2);
+        ctx.beginPath();
+        ctx.strokeStyle = "red";
+        ctx.moveTo(this.x - 10, this.y);
+        ctx.lineTo(this.x + 10, this.y);
+        ctx.moveTo(this.x, this.y - 10);
+        ctx.lineTo(this.x, this.y + 10);
+        ctx.stroke();
     }
     tick(){
         if (this.visibility) {
