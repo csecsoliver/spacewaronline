@@ -23,3 +23,6 @@ body{
     margin-left: 40px;
     padding: 10px;
 }
+canvas{
+    border: 1px solid white;
+}
