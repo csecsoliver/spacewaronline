@@ -12,7 +12,7 @@ export class Spaceship extends engine.Sprite {
         this.rotateRight = controls[2];
         this.fire = controls[3];
         this.warp = controls[4];
-
+        this.player = player;
         this.visibility = true;
         this.rotateRightCooldown = 0;
         this.rotateLeftCooldown = 0;

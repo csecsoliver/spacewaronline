@@ -7,6 +7,7 @@ export const spriteImages = {
     "planet": "./images/planet",
 } // path/to/image(000.png)
 export var sprites = [];
+sprites.find((element)=>element.player === 0);
 export var pressedKeys = new Set([]);
 document.addEventListener("keydown", (event) => {
     pressedKeys.add(event.code);

@@ -17,4 +17,9 @@ body{
     width: 100%;
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
+}
+#settings{
+    margin-left: 40px;
+    padding: 10px;
 }
