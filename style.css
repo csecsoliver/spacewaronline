@@ -1,16 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Sixtyfour+Convergence&display=swap');
+
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Sixtyfour Convergence", sans-serif;
 }
 header{
-    color: red;
+    color: rgb(194, 194, 194);
     margin: 20px;
     display: flex;
     justify-content: center;
+    padding-bottom: 20px;
 }
 body{
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.925);
 
 }
 #game{
@@ -20,9 +24,75 @@ body{
     flex-wrap: wrap;
 }
 #settings{
-    margin-left: 40px;
+    
     padding: 10px;
+    color: rgb(194, 194, 194);
+    font-size: 1ch;
+    width: 30%;
+    text-align: left;
+    margin-left: 30px;
+    
 }
+
+#settings li{
+    padding-top: 7px;
+    list-style: none;
+}
+
+/* #settings button{
+    
+} */
 canvas{
     border: 1px solid white;
+    background-color: black;
+    background-image: url(images/Space\ Background.png);
+    background-repeat: no-repeat;
+    height: 600px;
 }
+hr{
+    border: 1px solid rgb(255, 57, 50);
+    width: 100%;
+}
+
+
+
+.boton-elegante {
+    padding: 10px 20px;
+    border: 2px solid #2c2c2c;
+    background-color: #1a1a1a;
+    color: #ffffff;
+    font-size: 0.7rem;
+    cursor: pointer;
+    border-radius: 20px;
+    transition: all 0.4s ease;
+    outline: none;
+    position: relative;
+    overflow: hidden;
+    font-weight: bold;
+  }
+  
+  .boton-elegante::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.25) 0%,
+      rgba(255, 255, 255, 0) 70%
+    );
+    transform: scale(0);
+    transition: transform 0.5s ease;
+  }
+  
+  .boton-elegante:hover::after {
+    transform: scale(4);
+  }
+  
+  .boton-elegante:hover {
+    border-color: #666666;
+    background: #292929;
+  }
+  
