@@ -22,11 +22,12 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("canvas").height = 600;
     document.getElementById("canvas").style.border = "1px solid white";
     
-    engine.sprites.push(new Spaceship(50, 50, [player1_binds["thrust"], player1_binds["left"], player1_binds["right"], player1_binds["fire"], player1_binds["warp"]], 0,0));
-    gameloop();
+    engine.sprites.push(new Spaceship(100, 100, [player1_binds["thrust"], player1_binds["left"], player1_binds["right"], player1_binds["fire"], player1_binds["warp"]],6,0));
+    engine.sprites.push(new Spaceship(700, 500, [player2_binds["thrust"], player2_binds["left"], player2_binds["right"], player2_binds["fire"], player2_binds["warp"]], 14,1));
     for (const element of [...document.getElementById("player1").children, ...document.getElementById("player2").children]) {
         element.lastChild.onclick = (event) => setbinding(event.target);
     }
+    gameloop();
 
 })
 
