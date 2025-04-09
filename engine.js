@@ -45,12 +45,15 @@ export class Sprite {
         for (let i = 0; i < 16; i++) {
             const element = new Image();
             element.src = this.image + String(i).padStart(3, "0") + ".png";
-            if (element.width > this.width){
-                this.width = element.width;
-            }
-            if (element.height > this.height){
-                this.height = element.height;
-            }
+            element.onload = () => {
+                // Update the sprite dimensions based on the first loaded image, or keep max values
+                if (this.width === 0 || element.naturalWidth > this.width) {
+                    this.width = element.naturalWidth;
+                }
+                if (this.height === 0 || element.naturalHeight > this.height) {
+                    this.height = element.naturalHeight;
+                }
+            };
             this.images.push(element);
         }
 
