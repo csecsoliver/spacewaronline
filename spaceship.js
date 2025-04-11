@@ -33,7 +33,7 @@ export class Spaceship extends engine.Sprite {
             switch (key) {
                 case this.thrust:
                     const thrustVector = new Victor(Math.cos((this.facing*22.5)*(Math.PI/180)),Math.sin((this.facing*22.5)*(Math.PI/180)));
-                    thrustVector.multiplyScalar(0.05);
+                    thrustVector.multiplyScalar(0.07);
                     thrustVector.rotateDeg(-90);
                     const finalVector = this.movementvector.clone();
                     finalVector.add(thrustVector);
@@ -94,9 +94,10 @@ export class Spaceship extends engine.Sprite {
         while (this.movementvector.length() >=engine.speed_of_shit){
             this.movementvector.multiplyScalar(0.99999);
         }
+        this.movementvector.multiplyScalar(0.99);
 
         this.warpCooldown -=1;
-        console.log(this.movementvector.length());
+        // console.log(this.movementvector.length());
         super.tick();
     }
 }

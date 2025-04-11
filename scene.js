@@ -3,8 +3,7 @@ import * as engine from './engine.js';
 export class Planet extends engine.Sprite {
   constructor(x = 400, y = 300, image) {
     super(x, y, image, 0, 1);
-    this.width = 64; 
-    this.height = 64; 
+    
     this.visibility = true; 
   }
   tick() {
