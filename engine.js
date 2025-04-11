@@ -31,6 +31,8 @@ export function gametick() {
     }
     if (dead_counter > 1) {
         location.reload();
+        sprites = [];
+        console.error("Game Over, reloading...");
     }
 
 
