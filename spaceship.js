@@ -94,7 +94,8 @@ export class Spaceship extends engine.Sprite {
         while (this.movementvector.length() >=engine.speed_of_shit){
             this.movementvector.multiplyScalar(0.99999);
         }
-        this.movementvector.multiplyScalar(0.99);
+        this.movementvector.multiplyScalar(0.997);
+
 
         this.warpCooldown -=1;
         // console.log(this.movementvector.length());

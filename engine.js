@@ -36,7 +36,7 @@ export function gametick() {
 
 }
 export class Sprite {
-    constructor(x, y, image, facing = -1, scale = 2) {
+    constructor(x, y, image, facing = -1, scale = 1) {
         this.x = x;
         this.y = y;
         this.image = image; // path/to/image(000.png)
@@ -56,10 +56,10 @@ export class Sprite {
             element.onload = () => {
                 // Update the sprite dimensions based on the first loaded image, or keep max values
                 if (this.width === 0 || element.naturalWidth > this.width) {
-                    this.width = element.naturalWidth;
+                    this.width = element.naturalWidth* this.scale;
                 }
                 if (this.height === 0 || element.naturalHeight > this.height) {
-                    this.height = element.naturalHeight;
+                    this.height = element.naturalHeight* this.scale;
                 }
             };
             this.images.push(element);
@@ -85,7 +85,7 @@ export class Sprite {
     }
     draw() {
 
-        ctx.drawImage(this.images[this.facing], this.x-this.width/2, this.y-this.height/2);
+        ctx.drawImage(this.images[this.facing], this.x-this.width/2, this.y-this.height/2, this.width, this.height);
         ctx.beginPath();
         ctx.strokeStyle = "red";
         ctx.moveTo(this.x - 10, this.y);
