@@ -1,5 +1,5 @@
 import * as engine from './engine.js';
-
+import * as bullet from './bullet.js';
 export class Spaceship extends engine.Sprite {
     constructor(x, y, controls, facing = 0, player = 0) {
         super(x,y,engine.spriteImages[`ship${player}`], facing);
@@ -77,7 +77,9 @@ export class Spaceship extends engine.Sprite {
                     }
                     break;
                 case this.fire:
-                    console.log("fire");
+                    // Math.cos((this.facing*22.5)*(Math.PI/180)),Math.sin((this.facing*22.5)*(Math.PI/180))
+                    let newBullet = new bullet.Bullet(this.x, this.y, "./images/torpedo-big-", this.facing, 1)
+                    engine.sprites.push(newBullet)
                     break;
                 case this.warp:
                     if (this.warpCooldown <= 0){
