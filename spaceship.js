@@ -22,6 +22,8 @@ export class Spaceship extends engine.Sprite {
     explode() {
 
         this.hide();
+        this.alive = false;
+        console.log("Spaceship exploded!");
 
     }
     tick(){
@@ -33,7 +35,19 @@ export class Spaceship extends engine.Sprite {
                     const thrustVector = new Victor(Math.cos((this.facing*22.5)*(Math.PI/180)),Math.sin((this.facing*22.5)*(Math.PI/180)));
                     thrustVector.multiplyScalar(0.05);
                     thrustVector.rotateDeg(-90);
-                    this.movementvector.add(thrustVector);
+                    const finalVector = this.movementvector.clone();
+                    finalVector.add(thrustVector);
+                    console.log(finalVector);
+                    if (this.movementvector.length() < finalVector.length() && this.movementvector.length() > engine.speed_of_shit *0.5){
+                        
+                        console.log("slow down to thrust");
+                        break;
+                    } else{
+                        
+                        this.movementvector.add(thrustVector);
+
+                        console.log("Movement vector exceeds final vector length.");
+                    }
 
                     break;
                 case this.rotateLeft:
@@ -74,10 +88,10 @@ export class Spaceship extends engine.Sprite {
                     break;
             }
             if (this.movementvector.length >=1.0){
-                this.movementvector.multiplyScalar(0.5)
+                this.movementvector.multiplyScalar(0.5);
             }
         }
-        while (this.movementvector.length() >=engine.speed_of_shit*0.5){
+        while (this.movementvector.length() >=engine.speed_of_shit){
             this.movementvector.multiplyScalar(0.99999);
         }
 

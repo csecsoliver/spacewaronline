@@ -4,8 +4,8 @@ export const canvas = document.getElementById("canvas");
 export const spriteImages = {
     "ship0": "./images/xform-big-",
     "ship1": "./images/ywing-big-",
-    "planet": "./images/planet",
-} // path/to/image(000.png)
+    "planet": "./images/planet-",
+}; // path/to/image(000.png)
 export var sprites = [];
 sprites.find((element)=>element.player === 0);
 export var pressedKeys = new Set([]);
@@ -13,36 +13,44 @@ document.addEventListener("keydown", (event) => {
     pressedKeys.add(event.code);
     // console.log(pressedKeys);
     event.preventDefault();
-})
+});
 document.addEventListener("keyup", (event) => {
     pressedKeys.delete(event.code);
     // console.log(pressedKeys);
     event.preventDefault();
-})
+});
 export function gametick() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    let dead_counter = 0;
     for (let i = 0; i < sprites.length; i++) {
 
         sprites[i].tick();
+        if (!sprites[i].alive) {
+            dead_counter ++;
+        }
+    }
+    if (dead_counter > 1) {
+        location.reload();
     }
 
 
 }
 export class Sprite {
-    constructor(x, y, image, facing = 0, scale = 2) {
+    constructor(x, y, image, facing = -1, scale = 2) {
         this.x = x;
         this.y = y;
         this.image = image; // path/to/image(000.png)
         this.facing = facing; // the image number 0 through 15
-        this.movementvector = new Victor(0,0)
+        this.movementvector = new Victor(0,0);
         this.visibility = true;
 
         this.images = [];
-
+        this.alive= true;
         this.width = 0;
         this.height = 0;
         this.scale = scale;
         for (let i = 0; i < 16; i++) {
+
             const element = new Image();
             element.src = this.image + String(i).padStart(3, "0") + ".png";
             element.onload = () => {
@@ -55,6 +63,9 @@ export class Sprite {
                 }
             };
             this.images.push(element);
+            if (this.facing === -1) {
+                break; // Stop loading images if facing is not specified
+            }
         }
 
 
@@ -95,7 +106,7 @@ export class Sprite {
         if (this.visibility) {
             // Draw the spaceship at (this.x, this.y) with rotation this.angle
             // Use canvas 2D context to draw the spaceship
-            this.draw()
+            this.draw();
         }
         if (this.x >= 800){
             this.x = -24;
@@ -117,6 +128,5 @@ export class Sprite {
         this.movementvector.y += y;
     }
 }
-
 
 export const speed_of_shit = 10;
