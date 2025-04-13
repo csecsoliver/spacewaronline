@@ -38,7 +38,7 @@ export function gametick() {
 
 }
 export class Sprite {
-    constructor(x, y, image, facing = -1, scale = 1) {
+    constructor(x, y, image, facing = 0, scale = 1) {
         this.x = x;
         this.y = y;
         this.image = image; // path/to/image(000.png)
@@ -73,7 +73,7 @@ export class Sprite {
 
     }
 
-    goTo(x, y, facing) {
+    goTo(x, y, facing = this.facing) {
         this.x = x;
         this.y = y;
         this.facing = facing;

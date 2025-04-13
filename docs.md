@@ -8,7 +8,7 @@ import * as engine from “./engine.js”
 	- filenames of images in the game without 000.png
 - engine.sprites
 	- contains all the sprite objects present in the game
-	- you have to push you object to make it render and tick
+	- you have to push your object to make it render and tick
 - engine.pressedKeys
 	- all of the keys pressed on the keyboard stored as keyCode strings
 - engine.gametick
