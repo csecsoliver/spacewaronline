@@ -1,0 +1,55 @@
+Engine.js
+
+import * as engine from “./engine.js”
+
+- engine.ctx:
+	- Canvas context
+- engine.spriteImages
+	- filenames of images in the game without 000.png
+- engine.sprites
+	- contains all the sprite objects present in the game
+	- you have to push you object to make it render and tick
+- engine.pressedKeys
+	- all of the keys pressed on the keyboard stored as keyCode strings
+- engine.gametick
+	- internal function, renders and ticks all the sprites in engine.sprites
+- engine.Sprite
+	- base sprite class
+	- this.x, this.y
+		-  position (center)
+	- this.image
+		-  image path like in engine.spriteImages
+	- this.facing
+		-  0-15 int
+		-  22.5-degree incremental rotation clockwise
+	- this.movementvector
+		-  new Victor() object
+		-  defines momentum of the object
+	- this.visibility
+		-  bool
+		-  draw the object or not
+	- this.images
+		-  all html image elements connected to the sprite
+		-  indexed according to this.facing
+	- this.alive
+		-  only relevant for spaceships, game decides to restart based on it
+	- this.width this.width
+		-  sprite size
+		-  decided based on max image dimensions
+		-  scaled with this.scale
+	- this.scale
+		-  render scale
+	- this.goto(x, y, facing)
+		-  teleport while resetting movement
+	- this.hide()
+	- this.show()
+	- this.draw()
+		-  renders the sprite
+	- this.tick()
+		-  handles movement and calls this.draw()
+	- this.accelerate(x, y)
+		-  adds x and y to this.movementvector
+	- engine.speed_of_shit
+		-  maximum movement speed in the game
+		-  (not strict, just a guideline)
+
