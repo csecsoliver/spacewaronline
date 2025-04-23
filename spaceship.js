@@ -12,11 +12,11 @@ export class Spaceship extends engine.Sprite {
         this.rotateRight = controls[2];
         this.fire = controls[3];
         this.warp = controls[4];
-        this.player = player;
-        this.visibility = true;
-        this.rotateRightCooldown = 0;
-        this.rotateLeftCooldown = 0;
-        this.warpCooldown =0;
+        this.player = player; // player number zero indexed
+        this.visibility = true; // to draw or not to draw
+        this.rotateRightCooldown = 0; // cooldown for rotate right in ticks (frames)
+        this.rotateLeftCooldown = 0; // cooldown for rotate left in ticks (frames)
+        this.warpCooldown =0; // cooldown for warp in ticks (frames)
     }
 
     explode() {
