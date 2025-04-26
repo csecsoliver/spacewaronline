@@ -1,5 +1,6 @@
 import * as engine from './engine.js';
 import * as bullet from './bullet.js';
+import * as flame from './flame.js';
 export class Spaceship extends engine.Sprite {
     constructor(x, y, controls, facing = 0, player = 0) {
         super(x,y,engine.spriteImages[`ship${player}`], facing);
@@ -32,6 +33,7 @@ export class Spaceship extends engine.Sprite {
 
             switch (key) {
                 case this.thrust:
+                    engine.sprites.push(new flame.Flame(this.x, this.y, facing))
                     const thrustVector = new Victor(Math.cos((this.facing*22.5)*(Math.PI/180)),Math.sin((this.facing*22.5)*(Math.PI/180)));
                     thrustVector.multiplyScalar(0.07);
                     thrustVector.rotateDeg(-90);
@@ -48,7 +50,7 @@ export class Spaceship extends engine.Sprite {
 
                         console.log("Movement vector exceeds final vector length.");
                     }
-
+                    
                     break;
                 case this.rotateLeft:
                     if (this.rotateLeftCooldown === 0){

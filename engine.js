@@ -5,6 +5,7 @@ export const spriteImages = {
     "ship0": "./images/xform-big-",
     "ship1": "./images/ywing-big-",
     "planet": "./images/planet-",
+    "flame": "./images/flame-",
 }; // path/to/image(000.png)
 export var sprites = [];
 sprites.find((element)=>element.player === 0);
@@ -88,20 +89,20 @@ export class Sprite {
     draw() {
 
         ctx.drawImage(this.images[this.facing], this.x-this.width/2, this.y-this.height/2, this.width, this.height);
-        ctx.beginPath();
-        ctx.strokeStyle = "red";
-        ctx.moveTo(this.x - 10, this.y);
-        ctx.lineTo(this.x + 10, this.y);
-        ctx.moveTo(this.x, this.y - 10);
-        ctx.lineTo(this.x, this.y + 10);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(this.x-this.width/2, this.y-this.height/2);
-        ctx.lineTo(this.x+this.width/2, this.y-this.height/2);
-        ctx.lineTo(this.x+this.width/2, this.y+this.height/2);
-        ctx.lineTo(this.x-this.width/2, this.y+this.height/2);
-        ctx.lineTo(this.x-this.width/2, this.y-this.height/2);
-        ctx.stroke();
+        // ctx.beginPath();
+        // ctx.strokeStyle = "red";
+        // ctx.moveTo(this.x - 10, this.y);
+        // ctx.lineTo(this.x + 10, this.y);
+        // ctx.moveTo(this.x, this.y - 10);
+        // ctx.lineTo(this.x, this.y + 10);
+        // ctx.stroke();
+        // ctx.beginPath();
+        // ctx.moveTo(this.x-this.width/2, this.y-this.height/2);
+        // ctx.lineTo(this.x+this.width/2, this.y-this.height/2);
+        // ctx.lineTo(this.x+this.width/2, this.y+this.height/2);
+        // ctx.lineTo(this.x-this.width/2, this.y+this.height/2);
+        // ctx.lineTo(this.x-this.width/2, this.y-this.height/2);
+        // ctx.stroke();
 
     }
     tick(){
