@@ -17,7 +17,8 @@ export class Spaceship extends engine.Sprite {
         this.visibility = true; // to draw or not to draw
         this.rotateRightCooldown = 0; // cooldown for rotate right in ticks (frames)
         this.rotateLeftCooldown = 0; // cooldown for rotate left in ticks (frames)
-        this.warpCooldown =0; // cooldown for warp in ticks (frames)
+        this.warpCooldown =0; // cooldown for warp in ticks (frames) 
+        this.flameCooldown =0;
     }
 
     explode() {
@@ -33,7 +34,14 @@ export class Spaceship extends engine.Sprite {
 
             switch (key) {
                 case this.thrust:
-                    engine.sprites.push(new flame.Flame(this.x, this.y, facing))
+                    if (this.alive){
+                        if (this.flameCooldown == 0){
+                            engine.sprites.push(new flame.Flame(this.x, this.y, this.facing));
+                            this.flameCooldown = 10;
+                        } else{
+                            this.flameCooldown-=1;
+                        }
+                    }
                     const thrustVector = new Victor(Math.cos((this.facing*22.5)*(Math.PI/180)),Math.sin((this.facing*22.5)*(Math.PI/180)));
                     thrustVector.multiplyScalar(0.07);
                     thrustVector.rotateDeg(-90);

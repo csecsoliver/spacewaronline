@@ -4,6 +4,11 @@ export class Flame extends engine.Sprite {
         super(x,y,engine.spriteImages[`flame`], 0);
         this.intensity = 1;
         this.decay = 0.01;
+        this.offsetVector = new Victor(Math.cos((facing*22.5)*(Math.PI/180)),Math.sin((facing*22.5)*(Math.PI/180)));
+        this.offsetVector.rotateDeg(-90);
+        this.x -= this.offsetVector.x*10;
+        this.y -= this.offsetVector.y*10;
+
     }
     tick (){
     
