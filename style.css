@@ -47,6 +47,8 @@ canvas{
     background-color: black;
     background-image: url(images/Space\ Background.png);
     background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
     height: 600px;
 }
 hr{
@@ -94,5 +96,13 @@ hr{
   .boton-elegante:hover {
     border-color: #666666;
     background: #292929;
+  }
+  
+  #fullscreenButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 10px;
+    cursor: pointer;
   }
   

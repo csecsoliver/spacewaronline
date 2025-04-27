@@ -12,6 +12,11 @@
 		</h1>
 	</header>
 	<div id="game"><canvas id="canvas"></canvas>
+		<button id="fullscreenButton">Toggle Fullscreen</button>	
+		<script src="./script.js"></script>
+		<script>
+			setupFullscreenToggle('canvas', 'fullscreenButton');
+		  </script>
 		<div id="settings">
 			<h3>Settings</h3>
 			<br>
@@ -34,12 +39,13 @@
 				<li>Fire: <button type="button" class="boton-elegante" id="fire" onclick="setbinding(this)">Set keybind</button></li>
 				<li>Warp: <button type="button" class="boton-elegante" id="warp" onclick="setbinding(this)">Set keybind</button></li>
 			</ul>
-
+			
 			
 		</div>
+		
 	</div>
 	<script src="./victor.js"></script>
-	<script src="./script.js"></script>
+	<!-- <script src="./script.js"></script> -->
 	<script src="./game.js" type="module"></script>
 </body>
 </html>
