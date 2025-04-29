@@ -1,7 +1,7 @@
 import * as engine from './engine.js';
 export class Flame extends engine.Sprite {
     constructor(x, y, facing = 0) {
-        super(x,y,engine.spriteImages[`flame`], 0);
+        super(x,y,engine.spriteImages[`flame`], -1);
         this.intensity = 1;
         this.decay = 0.01;
         this.offsetVector = new Victor(Math.cos((facing*22.5)*(Math.PI/180)),Math.sin((facing*22.5)*(Math.PI/180)));

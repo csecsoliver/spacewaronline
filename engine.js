@@ -1,4 +1,3 @@
-
 export const ctx = document.getElementById("canvas").getContext("2d");
 export const canvas = document.getElementById("canvas");
 export const spriteImages = {
@@ -6,6 +5,7 @@ export const spriteImages = {
     "ship1": "./images/ywing-big-",
     "planet": "./images/planet-",
     "flame": "./images/flame-",
+    "explosion": "./images/boom-big-"
 }; // path/to/image(000.png)
 export var sprites = [];
 sprites.find((element)=>element.player === 0);
@@ -53,7 +53,7 @@ export class Sprite {
         this.height = 0;
         this.scale = scale;
         for (let i = 0; i < 16; i++) {
-
+            
             const element = new Image();
             element.src = this.image + String(i).padStart(3, "0") + ".png";
             element.onload = () => {
@@ -65,8 +65,10 @@ export class Sprite {
                     this.height = element.naturalHeight* this.scale;
                 }
             };
+            
             this.images.push(element);
             if (this.facing === -1) {
+                this.facing = 0;
                 break; // Stop loading images if facing is not specified
             }
         }

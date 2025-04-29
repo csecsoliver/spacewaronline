@@ -2,7 +2,7 @@ import * as engine from './engine.js';
 
 export class Planet extends engine.Sprite {
   constructor(x = 400, y = 300, image, force = 1) {
-    super(x, y, image, 0, 1.5);
+    super(x, y, image, -1, 1.5);
     
     this.visibility = true; 
   }

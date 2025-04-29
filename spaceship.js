@@ -1,6 +1,7 @@
 import * as engine from './engine.js';
 import * as bullet from './bullet.js';
 import * as flame from './flame.js';
+import * as explosion from './explosion.js'
 export class Spaceship extends engine.Sprite {
     constructor(x, y, controls, facing = 0, player = 0) {
         super(x,y,engine.spriteImages[`ship${player}`], facing);
@@ -20,11 +21,20 @@ export class Spaceship extends engine.Sprite {
         this.warpCooldown =0; // cooldown for warp in ticks (frames)
         this.flameCooldown =0;
         this.fireCooldown =0;
-        
+        this.explosion = document.createElement("img");
+        this.explosion.src = "./images/explosion-000.png"
         
     }
 
     explode() {
+        if (!this.alive){
+            return;
+        }
+        const explosionn = new explosion.Explosion(this.x, this.y);
+        explosionn.draw();
+        engine.sprites.push(explosionn)
+        
+
         let enemy = null;
         engine.sprites.forEach(player => {
             if(player instanceof Spaceship)
@@ -43,7 +53,8 @@ export class Spaceship extends engine.Sprite {
         
         
         console.log("Spaceship exploded!");
-
+        
+        
     }
     tick(){
 
@@ -64,16 +75,16 @@ export class Spaceship extends engine.Sprite {
                     thrustVector.rotateDeg(-90);
                     const finalVector = this.movementvector.clone();
                     finalVector.add(thrustVector);
-                    console.log(finalVector);
+                    // console.log(finalVector);
                     if (this.movementvector.length() < finalVector.length() && this.movementvector.length() > engine.speed_of_shit *0.5){
 
-                        console.log("slow down to thrust");
+                        // console.log("slow down to thrust");
                         break;
                     } else{
 
                         this.movementvector.add(thrustVector);
 
-                        console.log("Movement vector exceeds final vector length.");
+                        
                     }
 
                     break;
@@ -105,14 +116,14 @@ export class Spaceship extends engine.Sprite {
                     break;
                 case this.fire:
                     // Math.cos((this.facing*22.5)*(Math.PI/180)),Math.sin((this.facing*22.5)*(Math.PI/180))
-                    if (this.fireCooldown <= 0){
+                    if (this.fireCooldown <= 0 && this.alive){
                         engine.sprites.forEach(player => {
                             if(player instanceof Spaceship)
                             {
                                 if(player.fire != this.fire){
                                     let newBullet = new bullet.Bullet(this.x, this.y, "./images/torpedo-big-", this.facing, this.movementvector ,1, player)
                                     engine.sprites.push(newBullet)
-                                    console.log(player)
+                                    // console.log(player)
                                 }
                             }
                         })
