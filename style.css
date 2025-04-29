@@ -105,4 +105,13 @@ hr{
     padding: 10px;
     cursor: pointer;
   }
+
+  #win{
+    position: absolute;
+    top: 25%;
+    left: 24%;
+    background-color: rgba(0, 0, 0, 0.325);
+    padding: 30px;
+    display: none;
+  }
   
