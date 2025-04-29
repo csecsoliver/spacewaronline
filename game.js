@@ -13,8 +13,8 @@ const player2_binds = {
     "thrust":"ArrowUp",
     "left":"ArrowLeft",
     "right": "ArrowRight",
-    "fire": "ControlRight",
-    "warp": "ShiftRight",
+    "fire": "ShiftRight",
+    "warp": "Enter",
 };
 
 console.log("frame script loaded");
