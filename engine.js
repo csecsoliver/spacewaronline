@@ -8,6 +8,12 @@ export const spriteImages = {
     "explosion": "./images/boom-big-"
 }; // path/to/image(000.png)
 export var sprites = [];
+
+export var variables = {
+    "fireCooldown": 180,
+    "warpCooldown": 360,
+};
+
 sprites.find((element)=>element.player === 0);
 export var pressedKeys = new Set([]);
 document.addEventListener("keydown", (event) => {

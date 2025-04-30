@@ -47,8 +47,12 @@ function setbinding(element){
             element.addEventListener("keydown", (event) => {
                 player1_binds[element.id] = event.code;
                 console.log(player1_binds);
-                engine.sprites.find((element)=>element.player === 0)[element.id] = event.code;
+                engine.sprites.find((element)=>element.player === 0)[element.getAttribute("data-bind")] = event.code;
                 element.innerText = "Set keybind";
+                console.log(event.code);
+                console.log(element.parentElement.firstElementChild.innerHTML);
+
+                element.parentElement.firstElementChild.innerHTML = event.code;
             }, {once: true});
 
             break;
@@ -57,8 +61,11 @@ function setbinding(element){
             element.addEventListener("keydown", (event) => {
                 player2_binds[element.id] = event.code;
                 console.log(player2_binds);
-                engine.sprites.find((element)=>element.player === 1)[element.id] = event.code;
+                engine.sprites.find((element)=>element.player === 1)[element.getAttribute("data-bind")] = event.code;
                 element.innerText = "Set keybind";
+                console.log(event.code);
+                console.log(element.parentElement.firstElementChild.innerHTML);
+                element.parentElement.firstElementChild.innerHTML = event.code;
             }, {once: true});
             break;
         case _:
@@ -67,3 +74,4 @@ function setbinding(element){
     }
     
 }
+
