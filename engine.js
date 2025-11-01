@@ -1,143 +1,168 @@
-export const ctx = document.getElementById("canvas").getContext("2d");
-export const canvas = document.getElementById("canvas");
-export const spriteImages = {
-    "ship0": "./images/xform-big-",
-    "ship1": "./images/ywing-big-",
-    "planet": "./images/planet-",
-    "flame": "./images/flame-",
-    "explosion": "./images/boom-big-"
-}; // path/to/image(000.png)
-export var sprites = [];
+/**
+ * @class Engine
+ * @description Manages the game canvas, rendering context, sprites, and the main game loop.
+ */
+export class Engine {
+    /**
+     * @param {HTMLCanvasElement} canvas The canvas element to render to.
+     */
+    constructor(canvas) {
+        /** @type {HTMLCanvasElement} */
+        this.canvas = canvas;
+        /** @type {CanvasRenderingContext2D} */
+        this.ctx = canvas.getContext("2d");
+        /** @type {Sprite[]} */
+        this.sprites = [];
+        /** @type {Set<string>} */
+        this.pressedKeys = new Set();
+        /** @type {Object.<string, any>} */
+        this.variables = {};
+        /** @type {Object.<string, string>} */
+        this.spriteImages = {};
 
-export var variables = {
-    "fireCooldown": 180,
-    "warpCooldown": 360,
-};
+        document.addEventListener("keydown", (event) => {
+            this.pressedKeys.add(event.code);
+            event.preventDefault();
+        });
 
-sprites.find((element)=>element.player === 0);
-export var pressedKeys = new Set([]);
-document.addEventListener("keydown", (event) => {
-    pressedKeys.add(event.code);
-    // console.log(pressedKeys);
-    event.preventDefault();
-});
-document.addEventListener("keyup", (event) => {
-    pressedKeys.delete(event.code);
-    // console.log(pressedKeys);
-    event.preventDefault();
-});
-export function gametick() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    let dead_counter = 0;
-    for (let i = 0; i < sprites.length; i++) {
+        document.addEventListener("keyup", (event) => {
+            this.pressedKeys.delete(event.code);
+            event.preventDefault();
+        });
+    }
 
-        sprites[i].tick();
-        if (!sprites[i].alive) {
-            dead_counter ++;
+    /**
+     * @description The main game loop. Clears the canvas and calls tick() on all sprites.
+     */
+    gametick() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        for (let i = 0; i < this.sprites.length; i++) {
+            this.sprites[i].tick();
         }
     }
-    if (dead_counter > 1) {
-        location.reload();
-        sprites = [];
-        console.error("Game Over, reloading...");
-    }
-
-
 }
+
+/**
+ * @class Sprite
+ * @description Represents a game object with position, appearance, and behavior.
+ */
 export class Sprite {
-    constructor(x, y, image, facing = 0, scale = 1) {
+    /**
+     * @param {number} x The x-coordinate of the sprite.
+     * @param {number} y The y-coordinate of the sprite.
+     * @param {string} image The base path to the sprite's images.
+     * @param {number} [facing=0] The initial facing direction of the sprite (0-15).
+     * @param {number} [scale=1] The scaling factor for the sprite's image.
+     * @param {Engine} engine The game engine instance.
+     */
+    constructor(x, y, image, facing = 0, scale = 1, engine) {
         this.x = x;
         this.y = y;
-        this.image = image; // path/to/image(000.png)
-        this.facing = facing; // the image number 0 through 15
-        this.movementvector = new Victor(0,0);
+        this.image = image;
+        this.facing = facing;
+        this.movementvector = new Victor(0, 0);
         this.visibility = true;
-
         this.images = [];
-        this.alive= true;
+        this.alive = true;
         this.width = 0;
         this.height = 0;
         this.scale = scale;
+        this.engine = engine;
+        this.loaded = false;
+        let imagesToLoad = (this.facing === -1) ? 1 : 16;
+
+        const onImageLoad = () => {
+            imagesToLoad--;
+            if (imagesToLoad === 0) {
+                this.loaded = true;
+            }
+        };
+
         for (let i = 0; i < 16; i++) {
-            
             const element = new Image();
             element.src = this.image + String(i).padStart(3, "0") + ".png";
             element.onload = () => {
-                // Update the sprite dimensions based on the first loaded image, or keep max values
                 if (this.width === 0 || element.naturalWidth > this.width) {
-                    this.width = element.naturalWidth* this.scale;
+                    this.width = element.naturalWidth * this.scale;
                 }
                 if (this.height === 0 || element.naturalHeight > this.height) {
-                    this.height = element.naturalHeight* this.scale;
+                    this.height = element.naturalHeight * this.scale;
                 }
+                onImageLoad();
             };
-            
             this.images.push(element);
             if (this.facing === -1) {
                 this.facing = 0;
-                break; // Stop loading images if facing is not specified
+                break;
             }
         }
-
-
     }
 
+    /**
+     * @description Moves the sprite to a new position.
+     * @param {number} x The new x-coordinate.
+     * @param {number} y The new y-coordinate.
+     * @param {number} [facing=this.facing] The new facing direction.
+     */
     goTo(x, y, facing = this.facing) {
         this.x = x;
         this.y = y;
         this.facing = facing;
-        this.movementvector = new Victor(0,0);
+        this.movementvector = new Victor(0, 0);
     }
+
+    /**
+     * @description Hides the sprite, so it is not rendered.
+     */
     hide() {
         this.visibility = false;
     }
+
+    /**
+     * @description Shows the sprite, so it is rendered.
+     */
     show() {
         this.visibility = true;
     }
+
+    /**
+     * @description Draws the sprite on the canvas.
+     */
     draw() {
-
-        ctx.drawImage(this.images[this.facing], this.x-this.width/2, this.y-this.height/2, this.width, this.height);
-        // ctx.beginPath();
-        // ctx.strokeStyle = "red";
-        // ctx.moveTo(this.x - 10, this.y);
-        // ctx.lineTo(this.x + 10, this.y);
-        // ctx.moveTo(this.x, this.y - 10);
-        // ctx.lineTo(this.x, this.y + 10);
-        // ctx.stroke();
-        // ctx.beginPath();
-        // ctx.moveTo(this.x-this.width/2, this.y-this.height/2);
-        // ctx.lineTo(this.x+this.width/2, this.y-this.height/2);
-        // ctx.lineTo(this.x+this.width/2, this.y+this.height/2);
-        // ctx.lineTo(this.x-this.width/2, this.y+this.height/2);
-        // ctx.lineTo(this.x-this.width/2, this.y-this.height/2);
-        // ctx.stroke();
-
+        if (!this.loaded) {
+            return;
+        }
+        this.engine.ctx.drawImage(this.images[this.facing], this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
     }
-    tick(){
+
+    /**
+     * @description Updates the sprite's state for the current frame.
+     */
+    tick() {
         if (this.visibility) {
-            // Draw the spaceship at (this.x, this.y) with rotation this.angle
-            // Use canvas 2D context to draw the spaceship
             this.draw();
         }
-        if (this.x >= 800){
+        if (this.x >= this.engine.canvas.width) {
             this.x = -24;
-        } else if (this.x <=-25){
-            this.x = 799;
+        } else if (this.x <= -25) {
+            this.x = this.engine.canvas.width - 1;
         }
-        if (this.y >= 600){
+        if (this.y >= this.engine.canvas.height) {
             this.y = -24;
-
-        } else if (this.y <=-25){
-            this.y = 599;
+        } else if (this.y <= -25) {
+            this.y = this.engine.canvas.height - 1;
         }
         this.x += this.movementvector.x;
         this.y += this.movementvector.y;
-
     }
+
+    /**
+     * @description Accelerates the sprite by a given vector.
+     * @param {number} x The x component of the acceleration.
+     * @param {number} y The y component of the acceleration.
+     */
     accelerate(x, y) {
         this.movementvector.x += x;
         this.movementvector.y += y;
     }
 }
-
-export const speed_of_shit = 10;
